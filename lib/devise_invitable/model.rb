@@ -221,7 +221,7 @@ module Devise
             attributes_hash[k] = attributes.delete(k)
           end
 
-          invitable = find_or_initialize_with_errors(invite_key_array, attributes_hash)
+          invitable = find_or_inititalize_invitable_with_errors(invite_key_array, attributes_hash)
           invitable.assign_attributes(attributes, :as => inviter_role(invited_by))
           invitable.invited_by = invited_by
 
@@ -240,6 +240,10 @@ module Devise
             mail = invitable.invite!
           end
           [invitable, mail]
+        end
+
+        def find_or_inititalize_invitable_with_errors(invite_key_array, attributes_hash)
+          find_or_initialize_with_errors(invite_key_array, attributes_hash)
         end
 
         # Override this method if the invitable is using Mass Assignment Security
